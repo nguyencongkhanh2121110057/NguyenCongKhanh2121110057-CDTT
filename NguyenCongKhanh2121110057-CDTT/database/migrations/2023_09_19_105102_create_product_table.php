@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('nck_product', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('category_id')->unsigned();
-            $table->bigInteger('brand_id')->unsigned();
-            $table->string('name',1000);
-            $table->string('slug',1000);
+            $table->unsignedInteger('category_id');
+            $table->unsignedInteger('brand_id');
+            $table->string('name', 1000);
+            $table->string('slug', 1000);
             $table->float('price');
             $table->float('price_sale');
-            $table->string('image',1000);
+            $table->string('image', 1000);
             $table->unsignedInteger('qty');
             $table->mediumText('detail');
-            $table->string('metakey',255);
-            $table->string('metadesc',255);
+            $table->string('metakey', 255);
+            $table->string('metadesc', 255);
             $table->unsignedInteger('created_by')->default(1);
             $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();

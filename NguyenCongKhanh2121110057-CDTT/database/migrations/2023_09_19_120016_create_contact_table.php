@@ -13,16 +13,17 @@ return new class extends Migration
     {
         Schema::create('nck_contact', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->string('name',255);
-            $table->string('email',255); 
-            $table->string('phone',255);
-            $table->string('title',255);
-            $table->string('content',255);
+            $table->unsignedInteger('user_id');
+            $table->string('name', 1000);
+            $table->string('email', 1000)->unique();
+            $table->string('phone', 1000);
+            $table->string('title', 1000);
+            $table->mediumText('content');
             $table->unsignedInteger('replay_id');
-            $table->integer('updated_by')->nulltable();
-            $table->tinyInteger('status')->default(2);
+            $table->unsignedInteger('created_by')->default(1);
+            $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();
+            $table->unsignedTinyInteger('status')->default(2)->comment("0:Rác-1:Hiện-2:Ẩn");
         });
     }
 

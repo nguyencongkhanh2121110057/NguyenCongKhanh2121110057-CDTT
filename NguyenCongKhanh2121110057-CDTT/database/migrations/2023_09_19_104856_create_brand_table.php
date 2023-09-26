@@ -12,17 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('nck_brand', function (Blueprint $table) {
-            $table->id();
-            $table->string('name',1000);
-            $table->string('slug',1000);
-            $table->string('image',1000)->nulltable();
-            $table->unsignedInteger('sort_order')->default(0);
-            $table->string('metakey',255);
-            $table->string('metadesc',255);
-            $table->integer('created_by')->default(1);
-            $table->integer('updated_by')->nulltable();
-            $table->tinyInteger('status')->default(2);
+            $table->id(); // id int key icrement
+            $table->string('name', 1000)->unique()->comment("Tên Thương hiệu");
+            $table->string('slug', 1000)->unique();
+            $table->string('image', 1000)->nullable()->comment("Logo Thương hiệu");
+            $table->unsignedInteger('sort_order')->default(0)->comment("Vị trí hiển thị");
+            $table->string('metakey', 255);
+            $table->string('metadesc', 255);
+            $table->unsignedInteger('created_by')->default(1);
+            $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();
+            $table->unsignedTinyInteger('status')->default(2)->comment("0:Rác-1:Hiện-2:Ẩn");
         });
     }
 

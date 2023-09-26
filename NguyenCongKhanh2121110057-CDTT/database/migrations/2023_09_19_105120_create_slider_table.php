@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('nck_slider', function (Blueprint $table) {
             $table->id();
-            $table->string('name',1000);
-            $table->string('link',1000);
+            $table->string('name', 1000);
+            $table->string('link', 1000);
             $table->unsignedInteger('sort_order');
-            $table->string('position',255);
+            $table->string('position', 255);
             $table->unsignedInteger('created_by')->default(1);
             $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();

@@ -13,14 +13,14 @@ return new class extends Migration
     {
         Schema::create('nck_menu', function (Blueprint $table) {
             $table->id();
-            $table->string('name',255);
-            $table->string('link',255);
+            $table->string('name', 1000);
+            $table->string('link', 1000);
             $table->unsignedInteger('table_id');
-            $table->string('type',255);
-            $table->integer('created_by')->default(1);
-            $table->integer('updated_by')->nulltable();
-            $table->tinyInteger('status')->default(2);
+            $table->string('type', 255);
+            $table->unsignedInteger('created_by')->default(1);
+            $table->unsignedInteger('updated_by')->nullable();
             $table->timestamps();
+            $table->unsignedTinyInteger('status')->default(2)->comment("0:Rác-1:Hiện-2:Ẩn");
         });
     }
 

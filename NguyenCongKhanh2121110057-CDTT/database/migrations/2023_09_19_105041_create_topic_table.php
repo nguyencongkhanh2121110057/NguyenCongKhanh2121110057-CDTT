@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('nck_topic', function (Blueprint $table) {
             $table->id();
-            $table->string('name',1000);
-            $table->string('slug',1000);
+            $table->string('name', 1000);
+            $table->string('slug', 1000);
             $table->unsignedInteger('parent_id');
-            $table->string('metakey',255);
-            $table->string('metadesc',255);
+            $table->string('metakey', 255);
+            $table->string('metadesc', 255);
             $table->unsignedInteger('created_by')->default(1);
             $table->unsignedInteger('updated_by')->nullable();
-            $table->unsignedTinyInteger('status')->default(2);
             $table->timestamps();
+            $table->unsignedTinyInteger('status')->default(2)->comment("0:Rác-1:Hiện-2:Ẩn");
         });
     }
 

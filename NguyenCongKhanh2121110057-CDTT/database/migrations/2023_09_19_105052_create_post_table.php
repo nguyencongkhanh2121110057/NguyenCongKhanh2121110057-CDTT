@@ -13,18 +13,10 @@ return new class extends Migration
     {
         Schema::create('nck_post', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('topic_id')->unsigned();
-            $table->string('title',1000);
-            $table->string('slug',1000);
-            $table->mediumText('detail');
-            $table->string('image',1000);
-            $table->string('type',255);
-            $table->string('metakey',255);
-            $table->string('metadesc',255);
-            $table->unsignedInteger('created_by')->default(1);
-            $table->unsignedInteger('updated_by')->nullable();
+            $table->unsignedInteger('create_by');
+            $table->unsignedInteger('update_by')->nullable();
             $table->timestamps();
-            $table->unsignedTinyInteger('status')->default(2);
+            $table->tinyInteger('status');
         });
     }
 
