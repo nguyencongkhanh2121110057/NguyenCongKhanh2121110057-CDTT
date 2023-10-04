@@ -1,7 +1,7 @@
 @extends('layouts.admin')
 @section('title', 'Danh mục sản phẩm')
 @section('content')
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" style="margin: 0px">
         @csrf
         <div class="content-wrapper">
             <!-- Content Header (Page header) -->
@@ -26,6 +26,7 @@
                                     class="fa fa-trash"></i>Thùng rác</a>
                         </div>
                     </div><!-- /.container-fluid -->
+                </div>
             </section>
 
             <!-- Main content -->
@@ -112,8 +113,11 @@
                     </div>
                 </div>
                 <!-- /.card -->
+            </section>
+        </div>
+
     </form>
-    </section>
+
     <!-- /.content -->
-    </div>
+
 @endsection
