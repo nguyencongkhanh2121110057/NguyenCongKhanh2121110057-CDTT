@@ -22,7 +22,7 @@ class StoreBrandRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'=>'required|unique:nck_brand|',
+            'name'=>'required|unique:voduytan_brand|',
             //first là: required, nếu required lỗi thì unique là first
             'metakey'=>'required',
             'metadesc'=>'required',

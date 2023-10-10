@@ -1,130 +1,131 @@
-
 @extends('layouts.admin')
-@section('title','Cập nhật danh mục')
+
+@section('title', $title ?? 'Trang quản lý')
 @section('content')
-<form action="{{ route("category.update",['category'=>$category->id])}}" method="post" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
-<div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>Cập nhật danh mục</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Cập nhật danh mục</li>
-            </ol>
-          </div>
-        </div>
-        <div class="d-flex justify-content-end">
-          <div class="">
-            <button type="submit">Lưu</button>  
-               <a href="{{ route('category.index') }}" class="btn bg-success">
-                        <i class="fas fa-undo-alt"></i> Quay về danh sách </a>
-
-          </div>
-      </div><!-- /.container-fluid -->
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-
-      <!-- Default box -->
-      <div class="card">
-        <div class="card-header">
-          <h3 class="card-title">Cập nhật danh mục</h3>
-
-          <div class="card-tools">
-            <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-              <i class="fas fa-minus"></i>
-            </button>
-            <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-              <i class="fas fa-times"></i>
-            </button>
-          </div>
-        </div>
-        <div class="card-body">
-       
-
-         
-            <div class="row">
-                <div class="col-9">
-                    <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Tên danh mục</label>
-                        <input name="name" type="text" class="form-control" id="exampleFormControlInput1" placeholder="Nhập vào tên danh mục" value="{{ old('name',$category->name) }}" >
-                        @if ($errors->any())
-                        <div class="text-danger">
-                            {{$errors->first('name')}}
+    
+    <form action="{{ route('category.update',['category'=>$row->id]) }}" method="post" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1>CẬP NHẬT DANH MỤC</h1>
                         </div>
-
-                    @endif
-                      </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Từ Khóa</label>
-                        <textarea name="metakey" class="form-control" id="exampleFormControlTextarea1" placeholder="Nhập vào từ khóa" value="{{ old('metakey',$category->metakey) }}"
-                            rows="3"></textarea>
-                            @if ($errors->any())
-                            <div class="text-danger">
-                                {{$errors->first('metakey')}}
-                            </div>
-    
-                        @endif
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-right">
+                                <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Home</a></li>
+                                <li class="breadcrumb-item active">Blank Page</li>
+                            </ol>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea2" class="form-label">Mô Tả</label>
-                        <textarea name="metadesc" class="form-control" id="exampleFormControlTextarea2" placeholder="Nhập vào mô tả" value="{{ old('metadesc',$category->metadesc) }}"
-                            rows="3" ></textarea>
-                            @if ($errors->any())
-                            <div class="text-danger">
-                                {{$errors->first('metadesc')}}
-                            </div>
-    
-                        @endif
+                </div><!-- /.container-fluid -->
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+
+                <!-- Default box -->
+
+                <div class="card-header">
+                    <div class="row">
+                        <div class="col-12 text-right">
+                            <button type="submit" class="btn btn-sm btn-success">
+                                <i class="fas fa-save"></i>Lưu
+                            </button>
+
+                           
+                            <a href="{{ route('category.index') }}" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>Xóa</a>
+                                <a class="btn btn-sm btn-info" href="{{ route('category.index') }}">
+                                    <i class="fas fa-arrow-circle-left"></i> QUAY VỀ DANH SÁCH
+                                </a>
+                        </div>
                     </div>
                 </div>
-                <div class="col-3">
-                   
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea2" class="form-label">Sắp Xếp</label>
-                        <select name="sort_order" class="form-control" id="select1" aria-label="Default select example">
-                <option value="1">
-                    Chọn thương hiệu
-                </option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                      <label for="exampleFormControlTextarea2" class="form-label">Id cha</label>
-                      <select name="parent_id" class="form-control" id="select1" aria-label="Default select example">
-              <option value="1">
-                  Chọn ID cha
-              </option>
-                      </select>
-                  </div>
-                    <div class="input-group mb-3">
-                        <input name="image" type="file" class="form-control-file" id="inputGroupFile02">
-                    </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea2" class="form-label">Trạng thái</label>
-                        <select name="status" class="form-select" id="select1" aria-label="Default select example">
-                            <div>
-                                <option selected></option>
-                                <option value="1">Hiện</option>
-                                <option value="2">Tắt</option>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="mb-3">
+
+                                <label for="name">Tên danh mục</label>
+                                <input type="text" name="name" id="name" value="{{ old('name',$row->name) }}"
+                                    class="form-control">
+
+                                @if ($errors->has('name'))
+                                    <div class="text-danger">
+                                        {{ $errors->first('name') }}
+                                    </div>
+                                @endif
+
                             </div>
-                        </select>
+                            <div class="mb-3">
+                                <label for="metakey">Từ khóa</label>
+                          <textarea name="metakey" id="metakey" class="form-control">{{ old('metakey',$row->metakey) }}</textarea>
+                                @if ($errors->has('metakey'))
+                                <div class="text-danger">
+                                    {{ $errors->first('metakey') }}
+                                </div>
+                            @endif
+                            </div>
+                            <div class="mb-3">
+                                <label for="metadesc">Mô tả</label>
+                                <textarea name="metadesc" id="metadesc" class="form-control">{{ old('metadesc',$row->metadesc) }}</textarea>
+                                @if ($errors->has('metadesc'))
+                                <div class="text-danger">
+                                    {{ $errors->first('metadesc') }}
+                                </div>
+                            @endif
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="mb-3">
+                                <label for="parent_id">Chuyên mục cha</label>
+                                <select name="parent_id" id="parent_id" class="form-control">
+                                    <option value="0" >Cấp cha</option>
+                                    {!! $html_parent_id !!}
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="sort_order">Sắp xếp</label>
+                                <select name="sort_order" id="sort_order" class="form-control">
+                                    <option value="0" >Cấp cha</option>
+                                    {!!$html_sort_order !!}
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="image">Hình đại diện</label>
+                                <input name="image" id="image" type="file" class="form-control btn-sm">
+                            </div>
+                        </div>
                     </div>
+                </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-header">
+            <div class="row">
+                <div class="col-12 text-right">
+                    <button type="submit" class="btn btn-sm btn-success">
+                        <i class="fas fa-save"></i>Lưu
+                    </button>
+                   
+                    <a href="{{ route('category.index') }}" class="btn btn-sm btn-danger">
+                        <i class="fas fa-trash"></i>Xóa</a>
+                        <a class="btn btn-sm btn-info" href="{{ route('category.index') }}">
+                            <i class="fas fa-arrow-circle-left"></i> QUAY VỀ DANH SÁCH
+                        </a>
                 </div>
             </div>
-        </div>
       </div>
-      <!-- /.card -->
+        <!-- /.card-footer-->
+        </div>
+        <!-- /.card -->
 
-    </section>
-    <!-- /.content -->
-  </div>
-</form>
+        </section>
+        <!-- /.content -->
+        </div>
+    </form>
 @endsection

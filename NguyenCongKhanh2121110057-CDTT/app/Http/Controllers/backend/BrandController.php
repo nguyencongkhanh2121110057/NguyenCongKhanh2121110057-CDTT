@@ -234,16 +234,15 @@ class BrandController extends Controller
     // #get admin/brand/restore/2
     public function restore($id)
     {
-        $row = Brand::find($id);
-        if($row == NULL)
-        {
-            return redirect()->route('brand.trash')->with('message',['type' => 'danger','msg' =>'Mẫu tin không tồn tại']);
-       }
-       $row ->updated_by =Auth::id() ?? 1;//đăng nhập
-       $row ->updated_at =date('Y-m-d H:i:s'); //ngày tạoo
-       $row ->status =2;// trạng thái chưa xuất mã
-       $row->save();
-       return redirect()->route('brand.trash')->with('message',['type' => 'danger','msg' =>'Khôi phục mẫu tin thành công!']);
+        $brand = Brand::find($id);
+        if ($brand == NULL) {
+            return redirect()->route('brand.trash')->with('message', ['type' => 'danger', 'msg' => 'Mẫu tin không tồn tại']);
+        }
+        $brand->status = 2;
+        $brand->updated_at = date('Y-m-d H:i:s');
+        $brand->updated_by = Auth::id() ?? 1;
+        $brand->save();
+        return redirect()->route('brand.trash')->with('message', ['type' => 'success', 'msg' => 'Khôi phục mẫu tin thành công']);
     }
     public function status($id)
     {
