@@ -9,4 +9,5 @@ class Link extends Model
 {
     use HasFactory;
     protected $table = 'nck_link';
+    
 }

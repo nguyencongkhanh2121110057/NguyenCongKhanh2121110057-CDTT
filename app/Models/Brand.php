@@ -9,7 +9,6 @@ class Brand extends Model
 {
     use HasFactory;
     protected $table = 'nck_brand';
-
     protected $fillable = [
         'name',
         'image',

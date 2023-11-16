@@ -8,6 +8,9 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous" />
     <title>Document</title>
+    <style>
+        
+    </style>
 </head>
 
 <body>
@@ -24,130 +27,76 @@
         </section>
         <div class="nav mb-1 d-flex justify-content-between">
             <div class="d-flex">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                <div class="dropdown mx-1">
+                    <button class="btn text-dark bg-white" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Dropdown
+                        Phụ Kiện
                     </button>
                     <ul class="dropdown-menu">
                         <li>
-                            <button class="dropdown-item" type="button">Action</button>
+                            <button class="dropdown-item" type="button">Bộ 4 món</button>
                         </li>
                         <li>
                             <button class="dropdown-item" type="button">
-                                Another action
-                            </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item" type="button">
-                                Something else here
+                                Bộ 2 món
                             </button>
                         </li>
                     </ul>
                 </div>
                 <div class="dropdown mx-1">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    <button class="btn text-dark bg-white" type="button"
                         aria-expanded="false">
-                        Dropdown
+                        Bàn làm việc
+                    </button>
+                </div>
+                <div class="dropdown mx-1">
+                    <button class="btn text-dark bg-white" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Vỏ Gối
                     </button>
                     <ul class="dropdown-menu">
                         <li>
-                            <button class="dropdown-item" type="button">Action</button>
+                            <button class="dropdown-item" type="button">vỏ gối vuông</button>
                         </li>
                         <li>
                             <button class="dropdown-item" type="button">
-                                Another action
-                            </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item" type="button">
-                                Something else here
+                                vỏ gối chữ nhật
                             </button>
                         </li>
                     </ul>
                 </div>
                 <div class="dropdown mx-1">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    <button class="btn text-dark bg-white " type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Dropdown
+                        Bàn Ăn
                     </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <button class="dropdown-item" type="button">Action</button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item" type="button">
-                                Another action
-                            </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item" type="button">
-                                Something else here
-                            </button>
-                        </li>
-                    </ul>
+                    
                 </div>
                 <div class="dropdown mx-1">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                    <button class="btn text-dark bg-white" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        Dropdown
+                        Ghế
                     </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <button class="dropdown-item" type="button">Action</button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item" type="button">
-                                Another action
-                            </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item" type="button">
-                                Something else here
-                            </button>
-                        </li>
-                    </ul>
-                </div>
-                <div class="dropdown mx-1">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Dropdown
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <button class="dropdown-item" type="button">Action</button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item" type="button">
-                                Another action
-                            </button>
-                        </li>
-                        <li>
-                            <button class="dropdown-item" type="button">
-                                Something else here
-                            </button>
-                        </li>
-                    </ul>
+                   
                 </div>
             </div>
             <div class="mb-3 d-flex">
                 <input type="text" class="w-3" placeholder="Tìm Kiếm..." aria-label="Tìm Kiếm..."
                     aria-describedby="basic-addon2" />
-                <span class="input-group-text" id="basic-addon2">@example.com</span>
+                <span class="input-group-text" id="basic-addon2"><DIV>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-search" viewBox="0 0 16 16">
+                        <path
+                            d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                    </svg>
+                </DIV></span>
+                <div class="m-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-person-fill" viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
+                    </svg>
+                </div>
             </div>
-            <div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-person-fill" viewBox="0 0 16 16">
-                    <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3Zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
-                </svg>
-            </div>
-            <DIV>
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                    class="bi bi-search" viewBox="0 0 16 16">
-                    <path
-                        d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
-                </svg>
-            </DIV>
         </div>
 
         <section id="slide">
@@ -176,6 +125,9 @@
             </div>
         </section>
         <div class="row m-4">
+            @foreach ($list_category as $cat)
+        <x-product-home :cat='$cat' />
+         @endforeach
             <h4>SẢN PHẨM MỚI</h4>
             <div class="container text-center">
                 <div class="row row-cols-2 row-cols-lg-5 g-2 g-lg-3">
@@ -514,6 +466,9 @@
             </div>
 
         </div>
+        <div class=" text-center">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3919.4886218010843!2d106.69449747480495!3d10.773838789374802!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752f38d8f837bb%3A0xf7721ff8e9a206c3!2zMTIzIEzDvSBU4buxIFRy4buNbmcsIFBoxrDhu51uZyBC4bq_biBUaMOgbmgsIFF14bqtbiAxLCBUaMOgbmggcGjhu5EgSOG7kyBDaMOtIE1pbmgsIFZpZXRuYW0!5e0!3m2!1sen!2s!4v1700064000711!5m2!1sen!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
         <footer id="footer"><!--Footer-->
 
             <div class="row">
@@ -553,6 +508,7 @@
                     </div>
                 </div>
             </div>
+            
             <div class="row mt-1">
                 <span class="bg-dark text-light">Thiết kế website bởi Thiết kế web bởi <i class="text-danger">CÔNG KHÁNH</i> </span>
             </div>

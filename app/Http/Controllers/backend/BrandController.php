@@ -80,9 +80,6 @@ class BrandController extends Controller
            }
         return redirect()->route('brand.index')->with('message',['type' => 'succcess','msg' =>'Thành Công']);
        }
-    
-   
-
     public function show( $id)
     {
         $row = Brand::find($id); //lấy ra chi tiết mẫu tin đó
@@ -96,7 +93,6 @@ class BrandController extends Controller
         return view('backend.brand.show',compact('row'));
    }
     }
-
 
     public function edit( $id)
    {
@@ -139,9 +135,6 @@ class BrandController extends Controller
     //The POST method is not supported for route admin/brand/61. Supported methods: GET, HEAD, PUT, PATCH, DELETE : bổ sung bên edit : @method"PUT"
    }
     
-
-
-
     public function update(StoreBrandRequest $request,  $id)
     {
         $row = Brand::find($id);
@@ -177,7 +170,11 @@ class BrandController extends Controller
            }
            if ($row->save())
            {
-                $link = Link::where([['type','=',1],['table_id','=', $id]])->first();
+                // $link = Link::where([['type','=',1],['table_id','=', $id]])->first();
+                $link = Link::where([
+                    ['type', '=', 1],
+                    ['table_id', '=', $id]
+                ])->first();
                 $link->slug =$row->slug;
                 $link->save();
 
@@ -204,7 +201,6 @@ class BrandController extends Controller
        }
        return redirect()->route('brand.trash')->with('message',['type' => 'danger','msg' =>'xóa khỏi CSDL thành công!']);
     }
-
 
     #get admin/brand/trash
     public function trash()
@@ -234,15 +230,16 @@ class BrandController extends Controller
     // #get admin/brand/restore/2
     public function restore($id)
     {
-        $brand = Brand::find($id);
-        if ($brand == NULL) {
-            return redirect()->route('brand.trash')->with('message', ['type' => 'danger', 'msg' => 'Mẫu tin không tồn tại']);
-        }
-        $brand->status = 2;
-        $brand->updated_at = date('Y-m-d H:i:s');
-        $brand->updated_by = Auth::id() ?? 1;
-        $brand->save();
-        return redirect()->route('brand.trash')->with('message', ['type' => 'success', 'msg' => 'Khôi phục mẫu tin thành công']);
+        $row = Brand::find($id);
+        if($row == NULL)
+        {
+            return redirect()->route('brand.trash')->with('message',['type' => 'danger','msg' =>'Mẫu tin không tồn tại']);
+       }
+       $row ->updated_by =Auth::id() ?? 1;//đăng nhập
+       $row ->updated_at =date('Y-m-d H:i:s'); //ngày tạoo
+       $row ->status =2;// trạng thái chưa xuất mã
+       $row->save();
+       return redirect()->route('brand.trash')->with('message',['type' => 'danger','msg' =>'Khôi phục mẫu tin thành công!']);
     }
     public function status($id)
     {

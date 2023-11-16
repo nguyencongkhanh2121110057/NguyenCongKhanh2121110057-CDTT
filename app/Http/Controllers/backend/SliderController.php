@@ -3,28 +3,25 @@
 namespace App\Http\Controllers\backend;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-
-use Illuminate\Support\Str;
-use App\Http\Requests\StoreSliderRequest;
-use App\Http\Requests\UpdateSliderRequest;
-use Illuminate\Support\Facades\Auth;
-
-
 use App\Models\Slider;
+use App\Models\Link;
+use App\Http\Requests\sliderStoreRequest;
+use App\Http\Requests\sliderUpdateRequest;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
-class SliderController extends Controller
+
+
+class sliderController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $title ='Danh sách sản phẩm';                                                                                                             #$title...
-        $list = Slider::where('status','<>','0')->get();                                                                                       #orwhere la them 1 dieu kien nua {get lay nhieu mau tin} ['tenbien' => $list,'tieude' => $title]  ,compact($list)
-        return view('backend.slider.index',compact('list','title'));
+        $list_slider= Slider::where('status','!=',0)->get();
+        return view('backend.slider.index',compact('list_slider'));
     }
 
     /**
@@ -32,52 +29,49 @@ class SliderController extends Controller
      */
     public function create()
     {
-        
-        $title ='Tạo';
-        $list = Slider ::where('status','<>','0')->orderBy('created_at','desc')->get();  
-        $html_sort_order = '';
-        foreach($list as $item)
+        $list_slider= Slider::where('status','!=',0)->get();
+
+        $http_sort_order ='';
+        foreach($list_slider as $item)
         {
-            $html_sort_order .= "<option value ='' " . ($item->sort_order + 1) ."'>" .$item ->name . "</option>";
+
+            $http_sort_order .='<option value="'.$item->sort_order.'">Sau: '.$item->name.'</option>';
+
         }
-        return view("backend.slider.create", compact('html_sort_order', 'title'));
+
+        return view('backend.slider.create',compact('http_sort_order'));
+
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreSliderRequest $request)
+    public function store(SliderStoreRequest $request)
     {
-        $slider = new Slider();
-        $slider ->name = $request->name;
-        $slider ->link = $request->link;
-        $slider ->position = $request->position;
-        //$slider ->level = $request->level;
-        //$slider ->image = $request->image;
-        $slider ->sort_order = $request->sort_order;
-        $slider->created_at=date('Y-m-d H:i:s');
-        $slider->created_by= 1;
-        $slider->updated_by= Auth::id();
-        $slider->updated_at= date('Y-m-d H:i:s');
-        $slider->status=2;
-        
+        $list_slider= new Slider;
+        $list_slider->name= $request->name;
+
+        $list_slider->sort_order= $request->sort_order;
+        $list_slider->link= $request->link;
+        $list_slider->position= $request->position;
         $file = $request->file('image');
-        if($file!= NULL)
-        {
-            var_dump('file');
-             $extention = $file ->getClientOriginalExtension();
-             if(in_array($extention, ['png', 'jpg']))
-             {
-                $fileName = $slider ->slug. '.'.$extention;
-                $file->move(public_path('images/slider'),$fileName);
-                $slider->image = $fileName;
-                //$brand ->image = $request->image;
-             }
+        if ($file != NULL) {
+            $extention = $file->getClientOriginalExtension();
+                $fileName = $list_slider->name.'.'.$extention;
+                $file->move(public_path('images/slider/'),$fileName);
+                $list_slider->image = $fileName;
         }
 
 
-        $slider->save();
-        return redirect()->route('slider.index')->with('message',['type' => 'success', 'mgs' => 'Thêm thành công']);
+        $list_slider->status= $request->status;
+        if($list_slider->save())
+        {
+
+            return redirect()->route('slider.index')->with('message',['type'=>'success','mgs'=>'Thêm thành công']);
+        }
+        return redirect()->route('slider.index')->with('message',['type'=>'success','mgs'=>'Thêm không thành công']);
+
+        ;
     }
 
     /**
@@ -85,15 +79,13 @@ class SliderController extends Controller
      */
     public function show(string $id)
     {
+        $slider = Slider::find($id);
+        if($slider==NULL)
         {
-            $row = Slider::find($id);                                                                                           //$row1=Category::where([['id','=',$id],['status','!=',0]])..
-            if($row == NULL)
-            {
-                return redirect()->route('slider.index')->with('message',['type' => 'danger', 'mgs' => 'Mẫu tin không tồn tại']);
-            }
-            $title = "Chi tiết mãu tin";
-            return view('backend.slider.show',compact('row','title'));
+            return redirect()->route('slider.index')->with('message', ['type' => 'danger','mgs' => 'Mẫu tin không tồn tại!']);
         }
+        $title = 'Chi tiết mẫu tin';
+        return view('backend.slider.show',compact('slider','title'));
     }
 
     /**
@@ -101,133 +93,139 @@ class SliderController extends Controller
      */
     public function edit(string $id)
     {
-        $row = Slider::find($id);                                                                                           //$row1=brand::where([['id','=',$id],['status','!=',0]])..
-        if($row == NULL)
+        $list_slider= Slider::where('status','!=',0)->get();
+
+        $http_sort_order ='';
+        foreach($list_slider as $item)
         {
-            return redirect()->route('slider.index')->with('message',['type' => 'danger', 'mgs' => 'Mẫu tin không tồn tại']);
+
+            $http_sort_order .='<option value="'.$item->sort_order.'">Sau: '.$item->name.'</option>';
+
         }
-        $list = Slider ::where('status','<>','0')->orderBy('created_at','desc')->get();  
-        $html_sort_order = '';
-        foreach($list as $item)
+        $slider=Slider::find($id);
+        if($slider==null)
         {
-            if($item->sort_order == $row->sort_order)
-            {
-                $html_sort_order .= "<option selected value =' " . ($item->sort_order + 1) ."'>" .$item ->name . "</option>";            
-            }
-            else
-            {
-            $html_sort_order .= "<option value =' " . ($item->sort_order + 1) ."'>" .$item ->name . "</option>";
-            }
+            return redirect()->route('slider.index')->with("message",['type'=>'danger','msf'=>'không tồn tại mẫu tin này']);
         }
-        $title = "Cập nhập mẫu tin";
-        return view('backend.slider.edit',compact('row','title','list','html_sort_order'));
+        $list = Slider::all();
+        return view("backend.slider.edit",compact("slider","http_sort_order"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateSliderRequest $request, string $id)
+    public function update(SliderUpdateRequest $request,  $id)
     {
-        $row = Slider::find($id);                                                                                           //$row1=brand::where([['id','=',$id],['status','!=',0]])..
-        if($row == NULL)
-        {
-            return redirect()->route('slider.index')->with('message',['type' => 'danger', 'mgs' => 'Mẫu tin không tồn tại']);
-        }
-        $row ->name = $request->name;
-        $row ->link = $request->link;
-        $row ->position = $request->position;
-        //$row ->level = $request->level;
-        //$row ->image = $request->image;
-        $row ->sort_order = $request->sort_order;
-        $row->created_at=date('Y-m-d H:i:s');
-        $row->created_by= 1;
-        $row->updated_by= Auth::id();
-        $row->updated_at= date('Y-m-d H:i:s');
-        $row->status=2;
-        
+
+
+        $list_slider = Slider::find($id);
+        $list_slider->name = $request->name;
+        $list_slider->sort_order= $request->sort_order;
+        $list_slider->link= $request->link;
+        $list_slider->position= $request->position;
+        $list_slider->sort_order = $request->sort_order;
+        //$slider->level = $request->level;
+
+        $list_slider->updated_at =date('Y-m-d H:i:s');
+
+        $list_slider->status = $request->status;
+        //up load file
         $file = $request->file('image');
-        if($file!= NULL)
-        {
-            var_dump('file');
-             $extention = $file ->getClientOriginalExtension();
-             if(in_array($extention, ['png', 'jpg']))
-             {
-                $fileName = $row ->slug. '.'.$extention;
-                $file->move(public_path('images/slider'),$fileName);
-                $row->image = $fileName;
-                //$brand ->image = $request->image;
-             }
+        if ($file != NULL) {
+            $extention = $file->getClientOriginalExtension();
+            if (in_array($extention, ['png', 'jpg', 'jpeg', 'webp'])) {
+                $fileName = $list_slider->slug.'.'.$extention;
+                $file->move(public_path('images/slider/'), $fileName);
+                $list_slider->image = $fileName;
+            }
         }
-        $row->save();
-        return redirect()->route('slider.index')->with('message',['type' => 'success', 'mgs' => 'Cập nhập thành công']);
+        //$list_slider->image=$request->image;
+        if ($list_slider->save()){
+
+            return redirect()->route('slider.index')->with('message', ['type' => 'success','mgs' => 'Cập nhật mẫu tin thành công!']);
+
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy( $id)
     {
-        $row = Slider::find($id);
-        if($row == NULL)
-        {
-            return redirect()->route('slider.index')->with('message',['type' => 'danger', 'mgs' => 'Mẫu tin không tồn tại']);
-        }
-        $row->delete();
-            return redirect()->route('slider.index')->with('message', ['type' => 'success', 'mgs' => 'Xóa sản phẩm thành công']);
 
+        $list_slider = Slider::find($id);
+        if($list_slider==NULL)
+        {
+            return redirect()->route('slider.index')->with('message', ['type' => 'danger','mgs' => 'Mẫu tin không tồn tại!']);
+        }
+        if($list_slider->delete()){
+
+
+
+        return redirect()->route('slider.trash')->with('message', ['type' => 'success','mgs' => 'Xóa mẫu tin thành công!']);
+        }
     }
     public function trash()
-    {                                                                                                        
-        $list = Slider::where('status','=','0')->orderBy('created_at','asc')->get();                                                                                   #orwhere la them 1 dieu kien nua {get lay nhieu mau tin} ['tenbien' => $list,'tieude' => $title]  ,compact($list)
-        return view('backend.slider.trash',compact('list'));
+    {
+
+
+        $list_slider = Slider::where('status', '=', '0')->get();
+        return view('backend.slider.trash', compact('list_slider'));
+    }
+
+
+
+    public function delete($id)
+    {
+
+        $slider = Slider::find($id);
+        if($slider==NULL)
+        {
+            return redirect()->route('slider.index')->with('message', ['type' => 'danger','mgs' => 'Mẫu tin không tồn tại!']);
+        }
+        else
+        {
+         $slider->status = 0;
+         $slider->updated_at =date('Y-m-d H:i:s');
+
+         $slider->save();
+        return redirect()->route('slider.index')->with('message', ['type' => 'success','mgs' => 'Xóa vào thùng rác thành công!']);
+        }
+
+    }
+    public function restore($id)
+    {
+        $list_slider = Slider::find($id);
+        if($list_slider==NULL)
+        {
+            return redirect()->route('slider.index')->with('message', ['type' => 'danger','mgs' => 'Mẫu tin không tồn tại!']);
+        }
+        else
+        {
+            $list_slider->status = 2;
+
+            $list_slider->save();
+        return redirect()->route('slider.index')->with('message', ['type' => 'success','mgs' => 'Khôi phục thành công!']);
+        }
+
     }
 
     public function status($id)
     {
-        $row = Slider::find($id);
-        if($row == NULL)
+        $list_slider = Slider::find($id);
+        if($list_slider==NULL)
         {
-            return redirect()->route('slider.index')->with('message',['type' => 'danger', 'mgs' => 'Mẫu tin không tồn tại']);
+            return redirect()->route('slider.index')->with('message', ['type' => 'danger','mgs' => 'Mẫu tin không tồn tại!']);
         }
 
-        $row->updated_at = date('Y-m-d H:i:s');
-        $row->updated_by= 1;
-        $row->status=($row ->status == 1)? 2 : 1;
+        $list_slider->status = ($list_slider->status==1)?2:1;
 
-        $row ->save();
-        return redirect()->route('slider.index')->with('message', ['type' => 'success', 'mgs' => 'Thay đổi trạng thái thành công']);
+        $list_slider->save();
+        return redirect()->route('slider.index')->with('message', ['type' => 'success','mgs' => 'Thay đổi trạng thái thành công!']);
+
+
     }
 
-    public function delete($id)
-    {
-        $row = Slider::find($id);
-        if($row == NULL)
-        {
-            return redirect()->route('slider.index')->with('message',['type' => 'danger', 'mgs' => 'Mẫu tin không tồn tại']);
-        }
 
-        $row->updated_at = date('Y-m-d H:i:s');
-        $row->updated_by= 1;
-        $row->status=0;
 
-        $row ->save();
-        return redirect()->route('slider.index')->with('message', ['type' => 'success', 'mgs' => 'Xoá vào thùng rác thành công']);
-    }
-    
-
-    public function restore($id)
-    {
-    $row = Slider::find($id);
-        if($row == NULL)
-        {
-            return redirect()->route('slider.index')->with('message',['type' => 'danger', 'mgs' => 'Mẫu tin không tồn tại']);
-        }
-
-        $row->updated_at = date('Y-m-d H:i:s');
-        $row->updated_by= 1;
-        $row->status=($row ->status == 1)? 2 : 1;
-
-        $row ->save();
-        return redirect()->route('slider.index')->with('message', ['type' => 'success', 'mgs' => 'Khôi phục thành công']);
-    }
 }

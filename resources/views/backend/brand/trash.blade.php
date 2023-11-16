@@ -102,7 +102,7 @@
                                 
                                     <a href="{{ route('brand.restore', ['brand' => $brand->id]) }}" {{-- đường dẫn khi nhấp vào edit có tham số truyền vào nên phải có ->id  --}}
                                         class="btn btn-sm btn-success">
-                                        <i class="fa-solid fa-rotate-left"></i>
+                                        <i class="fa-solid fa-eye"></i>
 
                                     </a>
                                     <form action="{{ route('brand.destroy',['brand'=>$brand->id]) }}" method="POST" >

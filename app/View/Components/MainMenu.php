@@ -5,7 +5,7 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
-
+use App\Models\Menu;
 class MainMenu extends Component
 {
     /**
@@ -21,6 +21,12 @@ class MainMenu extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.main-menu');
+        $arg=[
+            ['status','=',1],
+            ['type','=','mainmenu'],
+            ['table_id','=',0]
+        ];
+        $menus=Menu::where($arg)->get();
+        return view('components.main-menu',compact('menus'));   
     }
 }

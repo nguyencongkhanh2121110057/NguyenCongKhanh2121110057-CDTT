@@ -24,7 +24,7 @@ class CategoryController extends Controller
     public function index()
     {                       
         $title ='Danh sách danh mục';                                                                                                             #$title...
-        $list = Category ::where('status','!=','0')->orderBy('status','desc')->get();                               //where                                                        #orwhere la them 1 dieu kien nua {get lay nhieu mau tin} ['tenbien' => $list,'tieude' => $title]  ,compact($list)
+        $list = Category ::where('status','!=','0')->orderBy('id','desc')->get();                               //where                                                        #orwhere la them 1 dieu kien nua {get lay nhieu mau tin} ['tenbien' => $list,'tieude' => $title]  ,compact($list)
         return view('backend.category.index',compact('list','title'));
 
 
@@ -41,21 +41,20 @@ class CategoryController extends Controller
         $html_sort_order = '';
         foreach($list as $item)
         {
-            $html_parent_id .= "<option value =''" . $item->id ."'>" .$item ->name . "</option>";
-            $html_sort_order .= "<option value ='' " . ($item->sort_order + 1) ."'>" .$item ->name . "</option>";
-        }
+            $html_parent_id .= "<option value='" . $item->id . "'>" . $item->name . "</option>";
+            $html_sort_order .= "<option value='" . ($item->sort_order + 1) . "'>Sau:" . $item->name . "</option>";        }
         return view("backend.category.create", compact('html_parent_id','html_sort_order', 'title'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCategoryRequest $request)
+    public function store(Request $request)
     {
         $row = new Category();
         $row ->name = $request->name;
         $row ->slug = Str::of($request->name)->slug('-');;
-        $row ->parent_id = $request->parent_id;
+        $row->parent_id = $request->parent_id;
         $row ->sort_order = $request->sort_order;
         //$row ->level = $request->level;
         //$row ->image = $request->image;
@@ -63,16 +62,16 @@ class CategoryController extends Controller
         $row->metadesc=$request->metadesc;
         $row->created_at=date('Y-m-d H:i:s');
         $row->created_by= 1;
-        if ($row->status == 2) {
-            $row->products()->update([
-                'status' => 2,
-                'updated_by' => Auth::user()->id
-            ]);
-            $row->menus()->update([
-                'status' => 2,
-                'updated_by' => Auth::user()->id
-            ]);
-        }        
+        // if ($row->status == 2) {
+        //     $row->products()->update([
+        //         'status' => 2,
+        //         'updated_by' => Auth::user()->id
+        //     ]);
+        //     $row->menus()->update([
+        //         'status' => 2,
+        //         'updated_by' => Auth::user()->id
+        //     ]);
+        // }        
         $file = $request->file('image');
         if($file!= NULL)
         {
@@ -169,7 +168,7 @@ class CategoryController extends Controller
         $row ->metakey = $request->metakey;
         $row->metadesc=$request->metadesc;
         $row->updated_at=date('Y-m-d H:i:s');
-        $row->updated_by= Auth::id();
+        $row->updated_by=1;
         if ($row->status == 2) {
             $row->products()->update([
                 'status' => 2,
@@ -291,7 +290,6 @@ class CategoryController extends Controller
         {
             return redirect()->route('category.index')->with('message',['type' => 'danger', 'mgs' => 'Mẫu tin không tồn tại']);
         }
-
         $row->updated_at = date('Y-m-d H:i:s');
         $row->updated_by= 1;
         $row->status=($row ->status == 1)? 2 : 1;
